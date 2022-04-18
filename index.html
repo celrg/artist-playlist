@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- JQUERY-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        
+        <!-- JS -->
+        <script src="js/functions.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                console.log("hello"); 
+                const url = 'http://localhost:3000/api/allReceivers/';
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify({
+                            town_param: 'Chatham',
+                            state_param: 'MA'
+                            }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        console.log(result)
+                    },
+                    error: function(error){
+                        console.log(`Error ${error}`)
+                    }
+                })
+                
+                // retrieve access token from spotify 
+                var client_id =  "4fe7505d10694bf491af46b26f6c5664";
+                var client_secret = "304907692fa049a0bc4b30bcc2599521";
+
+                var access = getAccess(client_id, client_secret);
+
+                console.log("access:" + access.access_token); 
+                
+                var artists = null; 
+                // clicking hello will search kkb on spotify 
+                $("#hello").click(function() {
+                    artists = search_artist("kero kero bonito", access.access_token); 
+                })
+            })
+        </script>
+    </head>
+
+    <body>
+        <p id="hello">Hello World!</p>
+    </body>
+</html>
